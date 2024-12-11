@@ -1,0 +1,25 @@
+body{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    background-color: black;
+}
+.paddle{
+    background-color: white;
+    width: 30px;
+    height: 150px;
+}
+#score{
+    color: white;
+    font-size: 75px;
+    text-align: center;
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+#ball{
+    background-color: white;
+    width: 20px;
+    height: 20px;
+}
