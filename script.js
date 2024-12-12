@@ -1,6 +1,8 @@
 let down = false;
 let playerToHigh = false;
 let playerToLow = false;
+let ps = 0;
+let es = 0;
 
 var Obiekt = function (x, y, img) {
     this.x = x;
@@ -38,7 +40,7 @@ var Pilka = function(x, y, speed, img)
     this.vx;
     this.vy;
     this.img = img;
-    this.xdir = 1;
+    this.xdir = -1;
     this.ydir = 1;
 }
 Pilka.prototype.rysuj = function ()
@@ -55,6 +57,8 @@ Pilka.prototype.start = function()
 {
     this.vx = (Math.floor(Math.random() * 5 + 1)) * this.speed;
     this.vy = (Math.floor(Math.random() * 5 + 1)) * this.speed;
+    this.x = 930;
+    this.y = 450;
 }
 Pilka.prototype.update = function()
 {
@@ -68,22 +72,22 @@ Pilka.prototype.update = function()
 }
 Pilka.prototype.checkHit = function()
 {
-    if(this.y <= 0)
+    if(this.y <= 60)
     {
         this.ydir = 1;
         console.log("Hit!");
     }
-    if(this.y >= 970)
+    if(this.y >= 870)
     {
         this.ydir = -1;
         console.log("Hit!");
     }
-    if(this.x <= 230)
+    if(this.x <= 230 && (left.y <= this.y && this.y <= left.y+150))
     {
         this.xdir = 1;
         console.log("Hit!");
     }
-    if(this.x >= 1680)
+    if(this.x >= 1670 && (right.y <= this.y && this.y <= right.y+150))
     {
         this.xdir = -1;
         console.log("Hit!");
@@ -95,7 +99,7 @@ function enemyHitbox()
     if(!down)
     {
         right.wGure();
-        if(right.y <= 0)
+        if(right.y <= 60)
         {
             down = true;
         }
@@ -103,7 +107,7 @@ function enemyHitbox()
     else
     {
         right.wDul();
-        if(right.y >= 840)
+        if(right.y >= 740)
         {
             down = false;
         }
@@ -111,7 +115,7 @@ function enemyHitbox()
 }
 function playerHitbox()
 {
-    if(left.y <= 0)
+    if(left.y <= 60)
     {
         playerToHigh = true;
     }
@@ -120,7 +124,7 @@ function playerHitbox()
         playerToHigh = false;
     }
 
-    if(left.y >= 840)
+    if(left.y >= 740)
     {
         playerToLow = true;
     }
@@ -129,9 +133,34 @@ function playerHitbox()
         playerToLow = false;
     }
 }
+function reset()
+{
+    pilka.start();
+}
+function wynik()
+{
+    let score = document.getElementById("score");
+    score.innerHTML = ps + " : " + es;
+    reset();
+}
+function checkScore()
+{
+    if(pilka.x < 200)
+    {
+        es++;
+        wynik();
+        console.log(es + " : " + ps);
+    }
+    if(pilka.x > 1700)
+    {
+        ps++;
+        wynik();
+        console.log(es + " : " + ps);
+    }
+}
 var left = new Obiekt(200, 450, $('<div id="left" class="paddle"></div>'));
 var right = new Obiekt(1700, 450, $('<div id="right" class="paddle"></div>'));
-var pilka = new Pilka(750, 450, 5, $('<div id="ball"></div>'));
+var pilka = new Pilka(930, 450, 5, $('<div id="ball"></div>'));
 
 document.addEventListener('keydown', function (event) {
     switch (event.code) {
@@ -159,3 +188,4 @@ pilka.start();
 let enemyMove = setInterval(enemyHitbox, 40);
 let playerMove = setInterval(playerHitbox, 1);
 let pilkaMove = setInterval(function () {pilka.update(); pilka.checkHit();}, 50);
+let scoreLoop = setInterval(checkScore, 50);
