@@ -150,12 +150,14 @@ function checkScore()
         es++;
         wynik();
         console.log(es + " : " + ps);
+        pilka.xdir = 1;
     }
     if(pilka.x > 1700)
     {
         ps++;
         wynik();
         console.log(es + " : " + ps);
+        pilka.xdir = -1;
     }
 }
 var left = new Obiekt(200, 450, $('<div id="left" class="paddle"></div>'));
